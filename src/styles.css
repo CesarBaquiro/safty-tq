@@ -1,0 +1,52 @@
+/* Archivo: dark-theme.css */
+
+/* Aplicar un fondo oscuro a todo el cuerpo y texto blanco */
+body {
+  background-color: #121212;
+  color: #ffffff;
+}
+
+/* Asegurarse de que los contenedores de la estructura principal también respeten el tema oscuro */
+.bg-primary {
+  background-color: #1f1f1f !important;
+}
+
+.bg-warning {
+  background-color: #333333 !important;
+  color: #ffffff !important;
+}
+
+/* Estilo de encabezados */
+h3 {
+  color: #ffffff;
+}
+
+/* Estilo de enlaces */
+a {
+  color: #bb86fc;
+}
+
+a:hover {
+  color: #ffffff;
+}
+
+/* Otros estilos necesarios para asegurar la coherencia del tema oscuro */
+.navbar,
+.footer {
+  background-color: #1f1f1f;
+  color: #ffffff;
+}
+
+.card {
+  background-color: #1f1f1f;
+  color: #ffffff;
+}
+
+/* Asegurarse de que los bordes y otros elementos decorativos también tengan el estilo adecuado */
+.border,
+.border-top,
+.border-right,
+.border-bottom,
+.border-left {
+  border-color: #444444 !important;
+}
