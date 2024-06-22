@@ -16,7 +16,6 @@ export class CompetitorInfoComponent implements OnInit {
   ngOnInit() {
     this.competitorsService.competitor$.subscribe((competitor) => {
       this.competitor = competitor;
-      console.log(this.competitor);
     });
   }
 }

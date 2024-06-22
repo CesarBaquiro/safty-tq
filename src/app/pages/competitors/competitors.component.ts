@@ -61,6 +61,7 @@ export default class CompetitorsComponent implements OnInit {
       .subscribe((vehicle) => {
         if (vehicle) {
           this.vehicle = vehicle;
+          this.competitorsService.setVehicle(vehicle); // Actualiza el competidor en el servicio
         } else {
           this.errorMessage = 'Vehicle not found for the specified user';
         }

@@ -1,12 +1,16 @@
+@if(vehicle){
+
+
+
 <div class="row p-3">
   <div class="col">
-    Referencia del vehiculo
+    Referencia del vehiculo: {{vehicle.vehicleReference}}
   </div>
 </div>
 
 <div class="row p-3">
   <div class="col">
-    Placa
+    Placa: {{vehicle.plate ? vehicle.plate : "No aplica"}}
   </div>
 </div>
 
@@ -43,3 +47,10 @@
     </button>
   </div>
 </div>
+
+}@else{
+<div class="text-center bg-danger rounded m-3 p-2">
+  <h1>Vino a pata</h1>
+  <h3>(No tenemos registro de su vehiculo)</h3>
+</div>
+}

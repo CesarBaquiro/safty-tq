@@ -16,10 +16,6 @@ export class VehicleInfoComponent implements OnInit {
   ngOnInit() {
     this.competitorsService.vehicle$.subscribe((vehicle) => {
       this.vehicle = vehicle;
-      console.log(this.vehicle);
-      if (!vehicle) {
-        console.log('No hay vehiculo');
-      }
     });
   }
 }

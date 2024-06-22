@@ -35,4 +35,8 @@ export class CompetitorsService {
   setCompetitor(competitor: CompetitorResponse | null) {
     this.competitorSubject.next(competitor);
   }
+
+  setVehicle(vehicle: VehicleResponse | null) {
+    this.vehicleSubject.next(vehicle);
+  }
 }
