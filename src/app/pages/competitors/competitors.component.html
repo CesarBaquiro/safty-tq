@@ -7,7 +7,7 @@
     @if(competitor){
     <!-- Numero de competidor -->
     <div class=" text-center">
-      <h1>{{competitor.competitorNum}}</h1>
+      <h1>N° {{competitor.competitorNum}}</h1>
     </div>
 
     <div class="container">
@@ -40,13 +40,14 @@
     } @else {
     <app-vehicle-info />
     }
-    <div class="text-center">
-      <p>Desarrollado por <a href="https://cesarbaquiro.github.io/chips/">Chips Safty</a></p>
-    </div>
+
     } @else {
     <div class="text-center bg-danger rounded m-3 p-2">
       <h1>{{errorMessage}}</h1>
     </div>
     }
+    <div class="text-center">
+      <p>Desarrollado por <a href="https://cesarbaquiro.github.io/chips/">Chips Safty</a></p>
+    </div>
   </div>
 </div>
