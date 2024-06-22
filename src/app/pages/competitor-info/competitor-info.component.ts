@@ -1,12 +1,22 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
+import { CompetitorsService } from '../../services/competitors.service';
+import type { CompetitorResponse } from '../../interfaces/req-response';
 
 @Component({
   selector: 'app-competitor-info',
   standalone: true,
-  imports: [],
   templateUrl: './competitor-info.component.html',
-  styles: ``
+  styles: [],
 })
-export class CompetitorInfoComponent {
+export class CompetitorInfoComponent implements OnInit {
+  private competitorsService = inject(CompetitorsService);
 
+  public competitor: CompetitorResponse | null = null;
+
+  ngOnInit() {
+    this.competitorsService.competitor$.subscribe((competitor) => {
+      this.competitor = competitor;
+      console.log(this.competitor);
+    });
+  }
 }

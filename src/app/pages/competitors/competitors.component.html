@@ -4,10 +4,10 @@
       Imagen safty
     </div>
 
-
+    @if(competitor){
     <!-- Numero de competidor -->
-    <div class="text-center">
-      <h1>Numero de piloto</h1>
+    <div class=" text-center">
+      <h1>{{competitor.competitorNum}}</h1>
     </div>
 
     <div class="container">
@@ -34,14 +34,17 @@
         </div>
       </div>
     </div>
+
     @if (infoOption == 1){
     <app-competitor-info />
     } @else {
     <app-vehicle-info />
     }
-
     <div class="text-center">
       <p>Desarrollado por <a href="https://cesarbaquiro.github.io/chips/">Chips Safty</a></p>
     </div>
+    } @else {
+    <h1>{{errorMessage}}</h1>
+    }
   </div>
 </div>

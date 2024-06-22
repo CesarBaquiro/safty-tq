@@ -1,18 +1,20 @@
+@if (competitor) {
+
 <div class="row p-3">
   <div class="col">
-    Nombre
+    Nombre: {{competitor.name}}
   </div>
   <div class="col">
-    Apellido
+    {{competitor.lastname}}
   </div>
 </div>
 
 <div class="row p-3">
   <div class="col">
-    Tipo de sangre
+    Tipo de sangre {{competitor.rh}}
   </div>
   <div class="col">
-    EPS
+    EPS {{competitor.eps}}
   </div>
 </div>
 
@@ -61,3 +63,5 @@
     </button>
   </div>
 </div>
+
+}
