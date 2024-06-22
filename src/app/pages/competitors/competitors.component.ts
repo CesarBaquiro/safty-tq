@@ -20,7 +20,6 @@ import { of } from 'rxjs';
 export default class CompetitorsComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private competitorsService = inject(CompetitorsService);
-
   public competitor: CompetitorResponse | null = null;
   public vehicle: VehicleResponse | null = null;
   public errorMessage: string | null = null;
@@ -32,8 +31,9 @@ export default class CompetitorsComponent implements OnInit {
           this.competitorsService.getUserByCompetitorNum(id).pipe(
             catchError((error) => {
               this.errorMessage =
-                error.error.error || 'An unknown error occurred';
-              return of(null); // Return a null observable to keep the stream alive
+                error.error.error ||
+                'Se produjo un error desconocido al buscar el usuario';
+              return of(null); // Retorna todo como un observable
             })
           )
         )
@@ -41,8 +41,8 @@ export default class CompetitorsComponent implements OnInit {
       .subscribe((competitor) => {
         if (competitor) {
           this.competitor = competitor;
-
-          this.competitorsService.setCompetitor(competitor); // Actualiza el competidor en el servicio
+          // Actualiza el competidor en el servicio para que otros componentes lo vean
+          this.competitorsService.setCompetitor(competitor);
           this.fetchVehicle(competitor.user_id);
         }
       });
@@ -55,26 +55,29 @@ export default class CompetitorsComponent implements OnInit {
         catchError((error) => {
           this.errorMessage =
             error.error?.error ||
-            'An unknown error occurred while fetching vehicle';
+            'Se produjo un error desconocido al buscar el vehículo.';
           return of(null);
         })
       )
       .subscribe((vehicle) => {
         if (vehicle) {
           this.vehicle = vehicle;
-          this.competitorsService.setVehicle(vehicle); // Actualiza el competidor en el servicio
+          // Actualiza el vehiculo en el servicio para que otros componentes lo vean
+          this.competitorsService.setVehicle(vehicle);
         } else {
-          this.errorMessage = 'Vehicle not found for the specified user';
+          this.errorMessage =
+            'Vehículo no encontrado para el usuario solicitado';
         }
       });
   }
-
   infoOption: number = 1;
 
+  // Metodo para mostrar un componente
   changeOption(option: number) {
     this.infoOption = option;
   }
 
+  // Metodo para aplicar la opacidad al componente oculto
   getOpacity(option: number): number {
     return this.infoOption === option ? 1 : 0.5;
   }

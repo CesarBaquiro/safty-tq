@@ -10,7 +10,6 @@ import { VehicleResponse } from '../../interfaces/req-response';
 })
 export class VehicleInfoComponent implements OnInit {
   private competitorsService = inject(CompetitorsService);
-
   public vehicle: VehicleResponse | null = null;
 
   ngOnInit() {

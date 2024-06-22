@@ -1,3 +1,5 @@
+// Interfaces
+
 export interface CompetitorResponse {
   user_id: string;
   competitorNum: string;
