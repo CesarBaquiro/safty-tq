@@ -23,9 +23,14 @@
     <div class="collapse" id="collapseExample">
       <div>
         <ul class="list-group p-3">
-          <li class="list-group-item">Numero de poliza SOAT:</li>
-          <li class="list-group-item">Numero de certificado RTM:</li>
-          <li class="list-group-item">Seguro todo riesgo: </li>
+          <li class="list-group-item">Numero de poliza SOAT:
+            <b>{{vehicle.numberPolicySoat ? vehicle.numberPolicySoat :
+              "No registrado" }}</b>
+          </li>
+          <li class="list-group-item">Numero de certificado RTM: <b>{{vehicle.certificateNumberRTM ?
+              vehicle.certificateNumberRTM : "No registrado"}}</b></li>
+          <li class="list-group-item">Seguro todo riesgo: <b>{{vehicle.allRisk == true ? "Aplica" : "No aplica"}}</b>
+          </li>
         </ul>
       </div>
     </div>

@@ -41,6 +41,7 @@ export default class CompetitorsComponent implements OnInit {
       .subscribe((competitor) => {
         if (competitor) {
           this.competitor = competitor;
+
           this.competitorsService.setCompetitor(competitor); // Actualiza el competidor en el servicio
           this.fetchVehicle(competitor.user_id);
         }
