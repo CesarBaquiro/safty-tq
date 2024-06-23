@@ -1,6 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CompetitorsService } from '../../services/competitors.service';
+import { Title } from '@angular/platform-browser';
 import { catchError, switchMap } from 'rxjs/operators';
 import {
   CompetitorResponse,
@@ -20,6 +21,8 @@ import { of } from 'rxjs';
 export default class CompetitorsComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private competitorsService = inject(CompetitorsService);
+  private titleService = inject(Title);
+
   public competitor: CompetitorResponse | null = null;
   public vehicle: VehicleResponse | null = null;
   public errorMessage: string | null = null;
@@ -27,23 +30,24 @@ export default class CompetitorsComponent implements OnInit {
   ngOnInit() {
     this.route.params
       .pipe(
-        switchMap(({ id }) =>
-          this.competitorsService.getUserByCompetitorNum(id).pipe(
+        switchMap(({ id }) => {
+          this.titleService.setTitle(`Piloto ${id}`);
+          return this.competitorsService.getUserByCompetitorNum(id).pipe(
             catchError((error) => {
               this.errorMessage =
                 error.error.error ||
                 'Se produjo un error desconocido al buscar el usuario';
               return of(null); // Retorna todo como un observable
             })
-          )
-        )
+          );
+        })
       )
       .subscribe((competitor) => {
         if (competitor) {
           this.competitor = competitor;
           // Actualiza el competidor en el servicio para que otros componentes lo vean
           this.competitorsService.setCompetitor(competitor);
-          this.fetchVehicle(competitor.user_id);
+          this.fetchVehicle(competitor.user_id); // Llama a la función para buscar el vehículo
         }
       });
   }
@@ -70,8 +74,8 @@ export default class CompetitorsComponent implements OnInit {
         }
       });
   }
-  infoOption: number = 1;
 
+  infoOption: number = 1;
   // Metodo para mostrar un componente
   changeOption(option: number) {
     this.infoOption = option;
