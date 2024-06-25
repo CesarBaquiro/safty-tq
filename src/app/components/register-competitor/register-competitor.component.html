@@ -1,16 +1,20 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+@if(!showForm){
+<!-- Formulario de competidor -->
+<h2>Registro de competidor</h2>
+
+<form [formGroup]="formCompetitor">
 
   <!-- Numero de competidor -->
-  <div class="mb-3">
-    <label for="competitorNum" class="form-label">Numero de competidor</label>
+  <div class="mb-3 pt-3">
+    <label for="competitorNum" class="form-label">Número de competidor</label>
     <input type="text" id="competitorNum" formControlName="competitorNum" class="form-control form-control-sm"
       [style.width.%]="25"
       [ngClass]="{'is-invalid': competitorNum?.invalid && (competitorNum?.dirty || competitorNum?.touched)}">
 
     @if (competitorNum?.invalid && (competitorNum?.dirty || competitorNum?.touched)) {
     <div class="invalid-feedback">
-      @if (competitorNum?.errors?.['required']) { <div>El numero de competidor es obligatorio.</div> }
-      @if ( competitorNum?.errors?.['minlength']||competitorNum?.errors?.['maxlength']) { <div>El numero de competidor
+      @if (competitorNum?.errors?.['required']) { <div>El número de competidor es obligatorio.</div> }
+      @if ( competitorNum?.errors?.['minlength']||competitorNum?.errors?.['maxlength']) { <div>El número de competidor
         debe tener 3 caracteres.</div> }
     </div>
     }
@@ -44,15 +48,15 @@
 
   <!-- Tipo de Sangre -->
   <div class="mb-3">
-    <label for="bloodType" class="form-label">Tipo de Sangre</label>
-    <select id="bloodType" formControlName="bloodType" class="form-select form-select-sm" [style.width.%]="50"
-      [ngClass]="{'is-invalid': bloodType?.invalid && (bloodType?.dirty || bloodType?.touched)}">
+    <label for="rh" class="form-label">Tipo de Sangre</label>
+    <select id="rh" formControlName="rh" class="form-select form-select-sm" [style.width.%]="50"
+      [ngClass]="{'is-invalid': rh?.invalid && (rh?.dirty || rh?.touched)}">
       <option value="" disabled selected>Selecciona tu RH</option>
       <option *ngFor="let type of bloodTypes" [value]="type">{{ type }}</option>
     </select>
-    @if (bloodType?.invalid && (bloodType?.dirty || bloodType?.touched)) {
+    @if (rh?.invalid && (rh?.dirty || rh?.touched)) {
     <div class="invalid-feedback">
-      <div *ngIf="bloodType?.errors?.['required']">El tipo de sangre es obligatorio.</div>
+      <div *ngIf="rh?.errors?.['required']">El tipo de sangre es obligatorio.</div>
     </div>
     }
   </div>
@@ -72,15 +76,95 @@
 
   <!-- Imagen -->
   <div class="mb-3">
-    <label for="image" class="form-label">Imagen del piloto</label>
+    <label for="imageCompetitor" class="form-label">Imagen del piloto</label>
     <div class="input-group mb-3">
-      <input type="file" class="form-control" id="inputGroupFile02" (change)="onFileSelected($event)">
+      <input type="file" class="form-control" id="inputGroupFile02" (change)="onFileSelected($event, 'competitor')">
+      <label class="input-group-text" for="inputGroupFile02">Subir</label>
+    </div>
+  </div>
+  <div class="mb-3 text-end">
+    <button class="btn btn-primary" [disabled]="formCompetitor.invalid" (click)="showForm = true">Continuar</button>
+  </div>
+</form>
+}@else {
+
+<!-- Formulario de vehiculo -->
+<h2>Registro de vehiculo</h2>
+<form [formGroup]="formVehicle" (ngSubmit)="onSubmit()" novalidate>
+
+  <!-- Marca y referencia del vehiculo -->
+  <div class="mb-3 pt-3">
+    <label for="vehicleReference" class="form-label">Marca y referencia</label>
+    <input type="text" id="vehicleReference" formControlName="vehicleReference" class="form-control"
+      [ngClass]="{'is-invalid': vehicleReference?.invalid && (vehicleReference?.dirty || vehicleReference?.touched)}">
+    @if (vehicleReference?.invalid && (vehicleReference?.dirty || vehicleReference?.touched)) {
+    <div class="invalid-feedback">
+      @if (vehicleReference?.errors?.['required']) { <div>La referencia es obligatoria.</div> }
+      @if (vehicleReference?.errors?.['minlength']) { <div>La referencia debe tener al menos 3 caracteres.</div> }
+    </div>
+    }
+  </div>
+
+  <!-- Placa del vehiculo -->
+  <div class="mb-3 ">
+    <label for="plate" class="form-label">Placa del vehiculo</label>
+    <input type="text" id="plate" formControlName="plate" class="form-control form-control-sm" [style.width.%]="40"
+      [ngClass]="{'is-invalid': plate?.invalid && (plate?.dirty || plate?.touched)}">
+    @if (plate?.invalid && (plate?.dirty || plate?.touched)) {
+    <div class="invalid-feedback">
+      @if ( plate?.errors?.['maxlength']) { <div>El numero de competidor debe tener maximo 6 caracteres.</div>
+      }
+    </div>
+    }
+  </div>
+
+  <!-- Numero de poliza de SOAT -->
+  <div class="mb-3">
+    <label for="numberPolicySoat" class="form-label">Numero de poliza SOAT vigente</label>
+    <input type="text" id="numberPolicySoat" formControlName="numberPolicySoat" class="form-control"
+      [style.width.%]="50"
+      [ngClass]="{'is-invalid': numberPolicySoat?.invalid && (numberPolicySoat?.dirty || numberPolicySoat?.touched)}">
+  </div>
+
+  <!-- Numero de certificado RTM -->
+  <div class="mb-3">
+    <label for="certificateNumberRTM" class="form-label">Numero de certificado RTM vigente</label>
+    <input type="text" id="certificateNumberRTM" formControlName="certificateNumberRTM" class="form-control"
+      [style.width.%]="50"
+      [ngClass]="{'is-invalid': certificateNumberRTM?.invalid && (certificateNumberRTM?.dirty || certificateNumberRTM?.touched)}">
+  </div>
+
+  <!-- Seguro todo riesgo -->
+  <label for="allRisk" class="form-label">Seguro todo riesgo</label>
+  <div class="mb-3">
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="allRiskRadioOptions" id="allRiskRadio1" value=false
+        [checked]="allRisk === false" (change)="onAllRiskChange($event)">
+      <label class="form-check-label" for="inlineRadio1">No tiene</label>
+    </div>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="allRiskRadioOptions" id="allRiskRadio2" value=true
+        [checked]="allRisk === true" (change)="onAllRiskChange($event)">
+      <label class="form-check-label" for="inlineRadio2">Si tiene</label>
+    </div>
+  </div>
+
+  <!-- Imagen del vehiculo-->
+  <div class="mb-3">
+    <label for="imageVehicle" class="form-label">Imagen del vehiculo</label>
+    <div class="input-group mb-3">
+      <input type="file" class="form-control" id="inputGroupFile02" (change)="onFileSelected($event, 'vehicle')">
       <label class="input-group-text" for="inputGroupFile02">Subir</label>
 
     </div>
   </div>
-
-  <div class="mb-3">
-    <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Registrar Competidor</button>
+  <div class="row justify-content-end">
+    <div class="col-4">
+      <button class="btn btn-secondary" type="button" (click)="showForm = false">Regresar</button>
+    </div>
+    <div class="col-4">
+      <button type="submit" class="btn btn-success" [disabled]="formVehicle.invalid">Guardar</button>
+    </div>
   </div>
 </form>
+}
