@@ -1,13 +1,86 @@
-<div class="input-group mb-3">
-  <input type="file" class="form-control" id="inputGroupFile02" (change)="onFileSelected($event)">
-  <label class="input-group-text" for="inputGroupFile02">Upload</label>
-</div>
+<form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
 
-<div *ngIf="uploadProgress$ | async as progress">
-  <div class="progress">
-    <div class="progress-bar" role="progressbar" [style.width.%]="progress" [attr.aria-valuenow]="progress"
-      aria-valuemin="0" aria-valuemax="100">
-      {{ progress }}%
+  <!-- Numero de competidor -->
+  <div class="mb-3">
+    <label for="competitorNum" class="form-label">Numero de competidor</label>
+    <input type="text" id="competitorNum" formControlName="competitorNum" class="form-control form-control-sm"
+      [style.width.%]="25"
+      [ngClass]="{'is-invalid': competitorNum?.invalid && (competitorNum?.dirty || competitorNum?.touched)}">
+
+    @if (competitorNum?.invalid && (competitorNum?.dirty || competitorNum?.touched)) {
+    <div class="invalid-feedback">
+      @if (competitorNum?.errors?.['required']) { <div>El numero de competidor es obligatorio.</div> }
+      @if ( competitorNum?.errors?.['minlength']||competitorNum?.errors?.['maxlength']) { <div>El numero de competidor
+        debe tener 3 caracteres.</div> }
+    </div>
+    }
+  </div>
+
+  <!-- Nombre -->
+  <div class="mb-3">
+    <label for="name" class="form-label">Nombre</label>
+    <input type="text" id="name" formControlName="name" class="form-control"
+      [ngClass]="{'is-invalid': name?.invalid && (name?.dirty || name?.touched)}">
+    @if (name?.invalid && (name?.dirty || name?.touched)) {
+    <div class="invalid-feedback">
+      @if (name?.errors?.['required']) { <div>El nombre es obligatorio.</div> }
+      @if (name?.errors?.['minlength']) { <div>El nombre debe tener al menos 3 caracteres.</div> }
+    </div>
+    }
+  </div>
+
+  <!-- Apellido -->
+  <div class="mb-3">
+    <label for="lastname" class="form-label">Apellido</label>
+    <input type="text" id="lastname" formControlName="lastname" class="form-control"
+      [ngClass]="{'is-invalid': lastname?.invalid && (lastname?.dirty || lastname?.touched)}">
+    @if (lastname?.invalid && (lastname?.dirty || lastname?.touched)) {
+    <div class="invalid-feedback">
+      @if (lastname?.errors?.['required']) { <div>El apellido es obligatorio.</div> }
+      @if (lastname?.errors?.['minlength']) { <div>El apellido debe tener al menos 3 caracteres.</div> }
+    </div>
+    }
+  </div>
+
+  <!-- Tipo de Sangre -->
+  <div class="mb-3">
+    <label for="bloodType" class="form-label">Tipo de Sangre</label>
+    <select id="bloodType" formControlName="bloodType" class="form-select form-select-sm" [style.width.%]="50"
+      [ngClass]="{'is-invalid': bloodType?.invalid && (bloodType?.dirty || bloodType?.touched)}">
+      <option value="" disabled selected>Selecciona tu RH</option>
+      <option *ngFor="let type of bloodTypes" [value]="type">{{ type }}</option>
+    </select>
+    @if (bloodType?.invalid && (bloodType?.dirty || bloodType?.touched)) {
+    <div class="invalid-feedback">
+      <div *ngIf="bloodType?.errors?.['required']">El tipo de sangre es obligatorio.</div>
+    </div>
+    }
+  </div>
+
+  <!-- eps -->
+  <div class="mb-3">
+    <label for="eps" class="form-label">EPS</label>
+    <input type="text" id="eps" formControlName="eps" class="form-control"
+      [ngClass]="{'is-invalid': eps?.invalid && (eps?.dirty || eps?.touched)}">
+    @if (eps?.invalid && (eps?.dirty || eps?.touched)) {
+    <div class="invalid-feedback">
+      @if (eps?.errors?.['required']) { <div>La EPS es obligatoria.</div> }
+      @if (eps?.errors?.['minlength']) { <div>El EPS debe tener al menos 3 caracteres.</div> }
+    </div>
+    }
+  </div>
+
+  <!-- Imagen -->
+  <div class="mb-3">
+    <label for="image" class="form-label">Imagen del piloto</label>
+    <div class="input-group mb-3">
+      <input type="file" class="form-control" id="inputGroupFile02" (change)="onFileSelected($event)">
+      <label class="input-group-text" for="inputGroupFile02">Subir</label>
+
     </div>
   </div>
-</div>
+
+  <div class="mb-3">
+    <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Registrar Competidor</button>
+  </div>
+</form>

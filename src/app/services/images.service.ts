@@ -1,38 +1,32 @@
-import { Injectable, inject } from '@angular/core';
-import { Observable } from 'rxjs';
-import {
-  Storage,
-  ref,
-  uploadBytesResumable,
-  getDownloadURL,
-} from '@angular/fire/storage';
+import { Injectable } from '@angular/core';
+import { Storage, ref, uploadBytesResumable } from '@angular/fire/storage';
+import { getDownloadURL } from 'firebase/storage';
+import { Observable, from } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ImagesService {
-  private storage: Storage = inject(Storage);
+  constructor(private storage: Storage) {}
 
-  uploadFile(file: File): Observable<number> {
-    return new Observable((observer) => {
-      const filePath = `imagenes/${file.name}`;
-      const fileRef = ref(this.storage, filePath);
-      const uploadTask = uploadBytesResumable(fileRef, file);
+  uploadFile(file: File): Observable<string> {
+    const filePath = `imagenes/${file.name}`;
+    const fileRef = ref(this.storage, filePath);
+    const uploadTask = uploadBytesResumable(fileRef, file);
 
+    return new Observable<string>((observer) => {
       uploadTask.on(
         'state_changed',
         (snapshot) => {
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          observer.next(progress);
+          // Puedes manejar el progreso aquí si lo deseas
         },
         (error) => {
           observer.error(error);
         },
         async () => {
-          const url = await getDownloadURL(fileRef);
+          const downloadURL = await getDownloadURL(fileRef);
+          observer.next(downloadURL);
           observer.complete();
-          console.log('Url del archivo: ', url);
         }
       );
     });
