@@ -42,7 +42,7 @@ export class RegisterCompetitorComponent {
   uploadProgress$!: Observable<number>;
   downloadURL$!: Observable<string>;
   bloodTypes: string[] = ['O+', 'O-', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-'];
-  allRisk: boolean = false;
+  allRisk: number = 0;
   secondContactInput: boolean = false;
   private fb: FormBuilder = inject(FormBuilder);
   private imagesService: ImagesService = inject(ImagesService);

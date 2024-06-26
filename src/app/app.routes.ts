@@ -14,7 +14,7 @@ export const routes: Routes = [
       import('./components/list-competitors/list-competitors.component'),
   },
   {
-    path: 'staff/registro',
+    path: 'registro',
     title: 'Registrar competidor',
     loadComponent: () =>
       import(
