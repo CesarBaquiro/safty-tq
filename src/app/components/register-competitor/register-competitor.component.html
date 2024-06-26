@@ -74,6 +74,54 @@
     }
   </div>
 
+  <form [formGroup]="formCompetitorContacts">
+    <!-- Contactos -->
+    <label for="info" class="form-label">Contacto en caso de emergencia</label>
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="info">
+        <img src="img/colombia-flag.png" alt="Colombia" style="width: 18px; height: 18px; margin-right: 2px;">
+        +57
+      </span>
+      <input type="text" id="info" formControlName="info" aria-describedby="info" class="form-control"
+        placeholder="Numero de Whatsapp" [ngClass]="{'is-invalid': info?.invalid && (info?.dirty || info?.touched)}">
+      @if (info?.invalid && (info?.dirty || info?.touched)) {
+      <div class="invalid-feedback">
+        @if (info?.errors?.['required']) { <div>El contacto es obligatorio.</div> }
+        @if (info?.errors?.['minlength'] || info?.errors?.['maxlength']) { <div>El numero debe tener 10
+          caracteres.
+        </div> }
+      </div>
+      }
+    </div>
+
+    <!-- Parentesco con el contacto -->
+    <div class="mb-3">
+      <label for="reference" class="form-label">Parentesco con el contacto</label>
+      <input type="text" id="reference" formControlName="reference" class="form-control"
+        placeholder="Esposa, Hijo, Hermano, etc."
+        [ngClass]="{'is-invalid': reference?.invalid && (reference?.dirty || reference?.touched)}">
+      @if (reference?.invalid && (reference?.dirty || reference?.touched)) {
+      <div class="invalid-feedback">
+        @if (reference?.errors?.['required']) { <div>El Parentesco con el contacto es obligatorio</div> }
+        @if (reference?.errors?.['minlength']) { <div>El parentesco debe tener al menos 3 caracteres.</div> }
+      </div>
+      }
+    </div>
+  </form>
+
+  <!-- Contacto 2 -->
+  @if(!secondContactInput){
+  <div class="mb-3">
+    <button class="btn btn-primary" (click)="secondContactInput = true">Agregar otro
+      contacto</button>
+  </div>
+
+  }@else {
+  <h1>Contactico DOS</h1>
+  }
+
+
+
   <!-- Imagen -->
   <div class="mb-3">
     <label for="imageCompetitor" class="form-label">Imagen del piloto</label>

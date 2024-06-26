@@ -19,10 +19,11 @@ import { Observable } from 'rxjs';
 export class RegisterCompetitorComponent {
   formCompetitor: FormGroup;
   formVehicle: FormGroup;
+  formCompetitorContacts: FormGroup;
   showForm: boolean = false;
   competitor = {
     allergies: [],
-    contacts: [],
+    contacts: [{ reference: '', info: '' }],
     vehicle: {},
   };
 
@@ -30,6 +31,7 @@ export class RegisterCompetitorComponent {
   downloadURL$!: Observable<string>;
   bloodTypes: string[] = ['O+', 'O-', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-'];
   allRisk: boolean = false;
+  secondContactInput: boolean = false;
   private fb: FormBuilder = inject(FormBuilder);
   private imagesService: ImagesService = inject(ImagesService);
   //private selectedFile: File | null = null;
@@ -46,6 +48,7 @@ export class RegisterCompetitorComponent {
       lastname: ['', [Validators.required, Validators.minLength(3)]],
       rh: ['', Validators.required],
       eps: ['', [Validators.required, Validators.minLength(3)]],
+
       //La imagen no es requerida obligatoriamente
       competitorImage: [null],
     });
@@ -58,6 +61,18 @@ export class RegisterCompetitorComponent {
       allRisk: this.allRisk,
       //La imagen no es requerida obligatoriamente
       vehicleImage: [null],
+    });
+
+    this.formCompetitorContacts = this.fb.group({
+      reference: ['', [Validators.required, Validators.minLength(3)]],
+      info: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(10),
+          Validators.maxLength(10),
+        ],
+      ],
     });
   }
 
@@ -87,6 +102,10 @@ export class RegisterCompetitorComponent {
     return this.formCompetitor.get('eps');
   }
 
+  get contact() {
+    return this.formCompetitor.get('contact');
+  }
+
   get imageCompetitor() {
     return this.formCompetitor.get('imageCompetitor');
   }
@@ -111,6 +130,16 @@ export class RegisterCompetitorComponent {
 
   get imageVehicle() {
     return this.formVehicle.get('imageVehicle');
+  }
+
+  // gets formulario de contactos
+
+  get reference() {
+    return this.formCompetitorContacts.get('reference');
+  }
+
+  get info() {
+    return this.formCompetitorContacts.get('info');
   }
 
   onFileSelected(event: any, type: string) {
@@ -163,6 +192,7 @@ export class RegisterCompetitorComponent {
 
         this.competitor = this.formCompetitor.value;
         this.competitor.vehicle = this.formVehicle.value;
+        this.competitor.contacts = [this.formCompetitorContacts.value];
         console.log(this.competitor);
       } catch (error) {
         console.error('Error uploading file:', error);
