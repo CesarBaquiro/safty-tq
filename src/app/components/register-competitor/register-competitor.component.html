@@ -16,6 +16,9 @@
       @if (competitorNum?.errors?.['required']) { <div>El número de competidor es obligatorio.</div> }
       @if ( competitorNum?.errors?.['minlength']||competitorNum?.errors?.['maxlength']) { <div>El número de competidor
         debe tener 3 caracteres.</div> }
+      @if(competitorNum?.errors?.['competitorExists']){
+      <div>El numero de competidor ya fue registrado.</div>
+      }
     </div>
     }
   </div>

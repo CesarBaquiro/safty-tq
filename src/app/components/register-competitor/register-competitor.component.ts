@@ -5,10 +5,20 @@ import {
   Validators,
   ReactiveFormsModule,
   FormArray,
+  AbstractControl,
+  ValidationErrors,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ImagesService } from '../../services/images.service';
-import { Observable } from 'rxjs';
+import {
+  Observable,
+  debounceTime,
+  distinctUntilChanged,
+  first,
+  map,
+  of,
+  switchMap,
+} from 'rxjs';
 import { CompetitorsService } from '../../services/competitors.service';
 
 @Component({
@@ -46,6 +56,7 @@ export class RegisterCompetitorComponent {
       competitorNum: [
         '',
         [Validators.required, Validators.minLength(3), Validators.maxLength(3)],
+        [this.competitorNumValidator.bind(this)],
       ],
       name: ['', [Validators.required, Validators.minLength(3)]],
       lastname: ['', [Validators.required, Validators.minLength(3)]],
@@ -247,5 +258,26 @@ export class RegisterCompetitorComponent {
     } else {
       console.log('Form is invalid');
     }
+  }
+
+  // Validador asíncrono para comprobar si el número de competidor ya existe
+  competitorNumValidator(
+    control: AbstractControl
+  ): Observable<ValidationErrors | null> {
+    if (!control.value) {
+      return of(null);
+    }
+
+    return control.valueChanges.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap((value) => {
+        return this.competitorsService.numCompetitorExist(value);
+      }),
+      map((exists) => {
+        return exists ? { competitorExists: true } : null;
+      }),
+      first()
+    );
   }
 }

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, map } from 'rxjs';
 import {
   CompetitorResponse,
   VehicleResponse,
@@ -51,5 +51,14 @@ export class CompetitorsService {
   // Se guardan los datos en el vehiculo compartido
   setVehicle(vehicle: VehicleResponse | null) {
     this.vehicleSubject.next(vehicle);
+  }
+
+  // Verificar si el número de competidor ya existe
+  numCompetitorExist(competitorNum: string): Observable<boolean> {
+    return this.http
+      .get<{ res: boolean }>(
+        `http://localhost:8000/api/validateRealTime/userExist/${competitorNum}`
+      )
+      .pipe(map((response) => response.res));
   }
 }
