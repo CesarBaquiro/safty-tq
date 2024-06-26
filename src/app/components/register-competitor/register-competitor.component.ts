@@ -4,10 +4,12 @@ import {
   FormGroup,
   Validators,
   ReactiveFormsModule,
+  FormArray,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ImagesService } from '../../services/images.service';
 import { Observable } from 'rxjs';
+import { CompetitorsService } from '../../services/competitors.service';
 
 @Component({
   standalone: true,
@@ -19,11 +21,11 @@ import { Observable } from 'rxjs';
 export class RegisterCompetitorComponent {
   formCompetitor: FormGroup;
   formVehicle: FormGroup;
-  formCompetitorContacts: FormGroup;
+
   showForm: boolean = false;
   competitor = {
     allergies: [],
-    contacts: [{ reference: '', info: '' }],
+    //    contacts: [{ reference: '', info: '' }],
     vehicle: {},
   };
 
@@ -34,6 +36,7 @@ export class RegisterCompetitorComponent {
   secondContactInput: boolean = false;
   private fb: FormBuilder = inject(FormBuilder);
   private imagesService: ImagesService = inject(ImagesService);
+  private competitorsService: CompetitorsService = inject(CompetitorsService);
   //private selectedFile: File | null = null;
   private selectedCompetitorFile: File | null = null;
   private selectedVehicleFile: File | null = null;
@@ -48,7 +51,8 @@ export class RegisterCompetitorComponent {
       lastname: ['', [Validators.required, Validators.minLength(3)]],
       rh: ['', Validators.required],
       eps: ['', [Validators.required, Validators.minLength(3)]],
-
+      contacts: this.fb.array([this.createContact()]), // Inicializamos el formulario con un contacto obligatorio
+      allergies: this.fb.array([this.createAllergie()]),
       //La imagen no es requerida obligatoriamente
       competitorImage: [null],
     });
@@ -61,18 +65,6 @@ export class RegisterCompetitorComponent {
       allRisk: this.allRisk,
       //La imagen no es requerida obligatoriamente
       vehicleImage: [null],
-    });
-
-    this.formCompetitorContacts = this.fb.group({
-      reference: ['', [Validators.required, Validators.minLength(3)]],
-      info: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(10),
-          Validators.maxLength(10),
-        ],
-      ],
     });
   }
 
@@ -100,10 +92,6 @@ export class RegisterCompetitorComponent {
 
   get eps() {
     return this.formCompetitor.get('eps');
-  }
-
-  get contact() {
-    return this.formCompetitor.get('contact');
   }
 
   get imageCompetitor() {
@@ -134,12 +122,62 @@ export class RegisterCompetitorComponent {
 
   // gets formulario de contactos
 
-  get reference() {
-    return this.formCompetitorContacts.get('reference');
+  get contacts() {
+    return this.formCompetitor.get('contacts') as FormArray;
   }
 
-  get info() {
-    return this.formCompetitorContacts.get('info');
+  get allergies() {
+    return this.formCompetitor.get('allergies') as FormArray;
+  }
+
+  get contactControls() {
+    return this.contacts.controls;
+  }
+
+  //Metodo para crear un contacto
+  createContact(): FormGroup {
+    return this.fb.group({
+      reference: ['', [Validators.required, Validators.minLength(3)]],
+      info: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(10),
+          Validators.maxLength(10),
+        ],
+      ],
+    });
+  }
+
+  addContact() {
+    this.contacts.push(this.createContact());
+  }
+
+  removeContact(index: number) {
+    if (this.contacts.length > 1) {
+      this.contacts.removeAt(index);
+    }
+  }
+
+  //Metodo para crear una alergia
+  createAllergie(): FormGroup {
+    return this.fb.group({
+      info: [''],
+    });
+  }
+
+  addAllergie() {
+    this.allergies.push(this.createAllergie());
+  }
+
+  removeAllergie(index: number) {
+    if (this.allergies.length > 1) {
+      this.allergies.removeAt(index);
+    }
+  }
+
+  get allergieControls() {
+    return this.allergies.controls;
   }
 
   onFileSelected(event: any, type: string) {
@@ -192,8 +230,17 @@ export class RegisterCompetitorComponent {
 
         this.competitor = this.formCompetitor.value;
         this.competitor.vehicle = this.formVehicle.value;
-        this.competitor.contacts = [this.formCompetitorContacts.value];
+
         console.log(this.competitor);
+        // Aquí enviamos los datos del formulario
+        this.competitorsService.postUserComplete(this.competitor).subscribe(
+          (response) => {
+            console.log('Usuario completo enviado:', response);
+          },
+          (error) => {
+            console.error('Error al enviar usuario completo:', error);
+          }
+        );
       } catch (error) {
         console.error('Error uploading file:', error);
       }

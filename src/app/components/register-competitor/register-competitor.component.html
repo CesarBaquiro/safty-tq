@@ -74,52 +74,82 @@
     }
   </div>
 
-  <form [formGroup]="formCompetitorContacts">
-    <!-- Contactos -->
-    <label for="info" class="form-label">Contacto en caso de emergencia</label>
-    <div class="input-group mb-3">
-      <span class="input-group-text" id="info">
-        <img src="img/colombia-flag.png" alt="Colombia" style="width: 18px; height: 18px; margin-right: 2px;">
-        +57
-      </span>
-      <input type="text" id="info" formControlName="info" aria-describedby="info" class="form-control"
-        placeholder="Numero de Whatsapp" [ngClass]="{'is-invalid': info?.invalid && (info?.dirty || info?.touched)}">
-      @if (info?.invalid && (info?.dirty || info?.touched)) {
-      <div class="invalid-feedback">
-        @if (info?.errors?.['required']) { <div>El contacto es obligatorio.</div> }
-        @if (info?.errors?.['minlength'] || info?.errors?.['maxlength']) { <div>El numero debe tener 10
-          caracteres.
-        </div> }
+
+  <!-- Contacts -->
+  <div formArrayName="contacts">
+    <div *ngFor="let contact of contactControls; let i = index" [formGroupName]="i">
+      <label for="info" class="form-label">Contacto {{i + 1}} en caso de emergencia</label>
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="info">
+          <img src="img/colombia-flag.png" alt="Colombia" style="width: 18px; height: 18px; margin-right: 2px;">
+          +57
+        </span>
+        <input type="text" id="info" formControlName="info" aria-describedby="info" class="form-control"
+          placeholder="Numero de Whatsapp"
+          [ngClass]="{'is-invalid': contact.get('info')?.invalid && (contact.get('info')?.dirty || contact.get('info')?.touched)}">
+        @if (contact.get('info')?.invalid && (contact.get('info')?.dirty || contact.get('info')?.touched)) {
+        <div class="invalid-feedback">
+          @if (contact.get('info')?.errors?.['required']) { <div>El contacto es obligatorio.</div> }
+          @if (contact.get('info')?.errors?.['minlength'] || contact.get('info')?.errors?.['maxlength']) { <div>El
+            numero
+            debe tener 10
+            caracteres.
+          </div> }
+        </div>
+        }
       </div>
-      }
+      <!-- Parentesco con el contacto -->
+      <div class="mb-3">
+        <label for="reference" class="form-label">Parentesco</label>
+        <input type="text" id="reference" formControlName="reference" class="form-control"
+          placeholder="Esposa, Hijo, Hermano, etc."
+          [ngClass]="{'is-invalid': contact.get('reference')?.invalid && (contact.get('reference')?.dirty || contact.get('reference')?.touched)}">
+        @if (contact.get('reference')?.invalid && (contact.get('reference')?.dirty ||
+        contact.get('reference')?.touched))
+        {
+        <div class="invalid-feedback">
+          @if (contact.get('reference')?.errors?.['required']) { <div>El Parentesco con el contacto es obligatorio</div>
+          }
+          @if (contact.get('reference')?.errors?.['minlength']) { <div>El parentesco debe tener al menos 3 caracteres.
+          </div> }
+        </div>
+        }
+      </div>
+      @if(i < 1){ <button type="button" class="btn btn-secondary btn-sm mb-3" (click)="addContact()">Agregar otro
+        contacto</button>
+        }@else {
+        <button type="button" class="btn btn-danger btn-sm mb-3" (click)="removeContact(i)">Eliminar contacto
+          {{i+1}}</button>
+        }
+
+
     </div>
 
-    <!-- Parentesco con el contacto -->
-    <div class="mb-3">
-      <label for="reference" class="form-label">Parentesco con el contacto</label>
-      <input type="text" id="reference" formControlName="reference" class="form-control"
-        placeholder="Esposa, Hijo, Hermano, etc."
-        [ngClass]="{'is-invalid': reference?.invalid && (reference?.dirty || reference?.touched)}">
-      @if (reference?.invalid && (reference?.dirty || reference?.touched)) {
-      <div class="invalid-feedback">
-        @if (reference?.errors?.['required']) { <div>El Parentesco con el contacto es obligatorio</div> }
-        @if (reference?.errors?.['minlength']) { <div>El parentesco debe tener al menos 3 caracteres.</div> }
-      </div>
-      }
-    </div>
-  </form>
 
-  <!-- Contacto 2 -->
-  @if(!secondContactInput){
-  <div class="mb-3">
-    <button class="btn btn-primary" (click)="secondContactInput = true">Agregar otro
-      contacto</button>
+
   </div>
 
-  }@else {
-  <h1>Contactico DOS</h1>
-  }
 
+  <!-- Allergies -->
+  <div formArrayName="allergies">
+    <div *ngFor="let allergie of allergieControls; let i = index" [formGroupName]="i">
+      <!-- Parentesco con el contacto -->
+      <div class="mb-3">
+        <label for="info" class="form-label">Alergia {{i + 1}}</label>
+        <input type="text" id="info" formControlName="info" class="form-control"
+          [ngClass]="{'is-invalid': allergie.get('info')?.invalid && (allergie.get('info')?.dirty || allergie.get('info')?.touched)}">
+        @if (allergie.get('info')?.invalid && (allergie.get('info')?.dirty ||
+        allergie.get('info')?.touched))
+        {
+        <div class="invalid-feedback">
+        </div>
+        }
+      </div>
+      <button *ngIf="i > 0" type="button" class="btn btn-danger btn-sm mb-3" (click)="removeAllergie(i)">Eliminar
+        alergia {{i+1}}</button>
+    </div>
+    <button type="button" class="btn btn-secondary btn-sm mb-3" (click)="addAllergie()">Agregar otra alergia</button>
+  </div>
 
 
   <!-- Imagen -->

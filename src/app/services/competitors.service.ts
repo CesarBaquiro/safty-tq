@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import {
   CompetitorResponse,
   VehicleResponse,
@@ -32,6 +32,14 @@ export class CompetitorsService {
   getVehicleByUserId(userId: string) {
     return this.http.get<VehicleResponse>(
       `http://localhost:8000/api/vehiculos/${userId}`
+    );
+  }
+
+  // Método para enviar datos completos de usuario
+  postUserComplete(competitor: any): Observable<any> {
+    return this.http.post<any>(
+      'http://localhost:8000/api/staffcontrol/usuarioCompleto',
+      competitor
     );
   }
 
