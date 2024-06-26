@@ -20,6 +20,7 @@ import {
   switchMap,
 } from 'rxjs';
 import { CompetitorsService } from '../../services/competitors.service';
+import Swal from 'sweetalert2';
 
 @Component({
   standalone: true,
@@ -212,11 +213,19 @@ export class RegisterCompetitorComponent {
     return new Promise((resolve, reject) => {
       this.imagesService.uploadFile(file).subscribe(
         (url) => {
-          console.log('File uploaded successfully. URL:', url);
+          Swal.fire({
+            icon: 'success',
+            title: 'File uploaded successfully',
+            text: `URL: ${url}`,
+          });
           resolve(url);
         },
         (error) => {
-          console.error('Error uploading file:', error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error uploading file',
+            text: error.message,
+          });
           reject(error);
         }
       );
@@ -225,38 +234,54 @@ export class RegisterCompetitorComponent {
 
   async onSubmit() {
     if (this.formVehicle.valid) {
-      //Actualizar el valor de allRisk
-      this.formVehicle.patchValue({ allRisk: this.allRisk });
       try {
         if (this.selectedCompetitorFile) {
-          const competitorUrl = await this.uploadFile(
-            this.selectedCompetitorFile
-          );
-          this.formCompetitor.patchValue({ competitorImage: competitorUrl });
-        }
-        if (this.selectedVehicleFile) {
-          const vehicleUrl = await this.uploadFile(this.selectedVehicleFile);
-          this.formVehicle.patchValue({ vehicleImage: vehicleUrl });
+          const url = await this.uploadFile(this.selectedCompetitorFile);
+          this.formCompetitor.patchValue({ image: url });
         }
 
         this.competitor = this.formCompetitor.value;
         this.competitor.vehicle = this.formVehicle.value;
 
-        console.log(this.competitor);
-        // Aquí enviamos los datos del formulario
         this.competitorsService.postUserComplete(this.competitor).subscribe(
           (response) => {
-            console.log('Usuario completo enviado:', response);
+            Swal.fire({
+              icon: 'success',
+              title: 'Piloto y vehículo registrado.',
+              text: 'La información ha sido registrada exitosamente.',
+            });
           },
           (error) => {
-            console.error('Error al enviar usuario completo:', error);
+            const errorMessage =
+              error?.error?.error || 'Un error desconocido ocurrió.';
+            Swal.fire({
+              icon: 'error',
+              title: 'Error al registrar',
+              text: errorMessage,
+            });
           }
         );
       } catch (error) {
-        console.error('Error uploading file:', error);
+        if (error instanceof Error) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error al cargar el archivo',
+            text: error.message,
+          });
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error al cargar el archivo',
+            text: 'Un error desconocido ocurrió.',
+          });
+        }
       }
     } else {
-      console.log('Form is invalid');
+      Swal.fire({
+        icon: 'error',
+        title: 'El formulario no es válido.',
+        text: 'Por favor complete el formulario correctamente.',
+      });
     }
   }
 

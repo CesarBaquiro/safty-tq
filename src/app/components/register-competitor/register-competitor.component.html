@@ -17,7 +17,7 @@
       @if ( competitorNum?.errors?.['minlength']||competitorNum?.errors?.['maxlength']) { <div>El número de competidor
         debe tener 3 caracteres.</div> }
       @if(competitorNum?.errors?.['competitorExists']){
-      <div>El numero de competidor ya fue registrado.</div>
+      <div>El número de competidor ya fue registrado.</div>
       }
     </div>
     }
@@ -170,7 +170,7 @@
 }@else {
 
 <!-- Formulario de vehiculo -->
-<h2>Registro de vehiculo</h2>
+<h2>Registro de vehículo</h2>
 <form [formGroup]="formVehicle" (ngSubmit)="onSubmit()" novalidate>
 
   <!-- Marca y referencia del vehiculo -->
@@ -188,7 +188,7 @@
 
   <!-- Placa del vehiculo -->
   <div class="mb-3 ">
-    <label for="plate" class="form-label">Placa del vehiculo</label>
+    <label for="plate" class="form-label">Placa del vehículo</label>
     <input type="text" id="plate" formControlName="plate" class="form-control form-control-sm" [style.width.%]="40"
       [ngClass]="{'is-invalid': plate?.invalid && (plate?.dirty || plate?.touched)}">
     @if (plate?.invalid && (plate?.dirty || plate?.touched)) {
@@ -232,7 +232,7 @@
 
   <!-- Imagen del vehiculo-->
   <div class="mb-3">
-    <label for="imageVehicle" class="form-label">Imagen del vehiculo</label>
+    <label for="imageVehicle" class="form-label">Imagen del vehículo</label>
     <div class="input-group mb-3">
       <input type="file" class="form-control" id="inputGroupFile02" (change)="onFileSelected($event, 'vehicle')">
       <label class="input-group-text" for="inputGroupFile02">Subir</label>
