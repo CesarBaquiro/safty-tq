@@ -38,6 +38,7 @@ export class RegisterCompetitorComponent {
     allergies: [],
     //    contacts: [{ reference: '', info: '' }],
     vehicle: {},
+    dataProcessingConsent: 0,
   };
 
   uploadProgress$!: Observable<number>;
@@ -45,6 +46,7 @@ export class RegisterCompetitorComponent {
   bloodTypes: string[] = ['O+', 'O-', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-'];
   allRisk: number = 0;
   secondContactInput: boolean = false;
+  dataProcessingAuthorizationValue: number = 0;
   private fb: FormBuilder = inject(FormBuilder);
   private imagesService: ImagesService = inject(ImagesService);
   private competitorsService: CompetitorsService = inject(CompetitorsService);
@@ -205,8 +207,15 @@ export class RegisterCompetitorComponent {
     }
   }
 
+  //Metodo para cambiar el valor del radio allRisk
   onAllRiskChange(event: any) {
     this.allRisk = event.target.value;
+  }
+
+  //Metodo para cambiar el valor del check tratamiento de datos
+  toggleValue() {
+    this.dataProcessingAuthorizationValue =
+      this.dataProcessingAuthorizationValue === 0 ? 1 : 0;
   }
 
   uploadFile(file: File): Promise<string> {
@@ -242,7 +251,9 @@ export class RegisterCompetitorComponent {
 
         this.competitor = this.formCompetitor.value;
         this.competitor.vehicle = this.formVehicle.value;
-
+        this.competitor.dataProcessingConsent =
+          this.dataProcessingAuthorizationValue;
+        console.log(this.competitor);
         this.competitorsService.postUserComplete(this.competitor).subscribe(
           (response) => {
             Swal.fire({
