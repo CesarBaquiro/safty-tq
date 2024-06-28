@@ -21,6 +21,7 @@ import {
 } from 'rxjs';
 import { CompetitorsService } from '../../services/competitors.service';
 import Swal from 'sweetalert2';
+import { NgxImageCompressService } from 'ngx-image-compress';
 
 @Component({
   standalone: true,
@@ -51,6 +52,9 @@ export class RegisterCompetitorComponent {
   private imagesService: ImagesService = inject(ImagesService);
   private competitorsService: CompetitorsService = inject(CompetitorsService);
   //private selectedFile: File | null = null;
+  private imageCompress: NgxImageCompressService = inject(
+    NgxImageCompressService
+  );
   private selectedCompetitorFile: File | null = null;
   private selectedVehicleFile: File | null = null;
 
@@ -167,6 +171,13 @@ export class RegisterCompetitorComponent {
     this.contacts.push(this.createContact());
   }
 
+  // Modificar la informacion de contacto ingresada por el usuario
+  modifyContactInfo(contact: FormGroup) {
+    const info = contact.get('info')?.value;
+    const modifiedInfo = `https://wa.me/+57${info}`;
+    contact.patchValue({ info: modifiedInfo });
+  }
+
   removeContact(index: number) {
     if (this.contacts.length > 1) {
       this.contacts.removeAt(index);
@@ -197,19 +208,62 @@ export class RegisterCompetitorComponent {
   onFileSelected(event: any, type: string) {
     const file: File = event.target.files[0];
     if (file) {
-      if (type === 'competitor') {
-        this.selectedCompetitorFile = file;
-        this.imageCompetitor?.setValue(file.name);
-      } else if (type === 'vehicle') {
-        this.selectedVehicleFile = file;
-        this.imageVehicle?.setValue(file.name);
-      }
+      this.compressImage(file).then((compressedFile) => {
+        if (type === 'competitor') {
+          this.selectedCompetitorFile = compressedFile;
+          this.imageCompetitor?.setValue(compressedFile.name);
+        } else if (type === 'vehicle') {
+          this.selectedVehicleFile = compressedFile;
+          this.imageVehicle?.setValue(compressedFile.name);
+        }
+      });
     }
+  }
+
+  // Metodo para comprimir la imagen
+  compressImage(file: File): Promise<File> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        const image = reader.result as string;
+        this.imageCompress.compressFile(image, -1, 30, 30).then(
+          (result) => {
+            const blob = this.dataURLtoBlob(result);
+            const compressedFile = new File([blob], file.name, {
+              type: file.type,
+            });
+            resolve(compressedFile);
+          },
+          (error) => {
+            reject(error);
+          }
+        );
+      };
+    });
+  }
+
+  dataURLtoBlob(dataurl: string): Blob {
+    // Separamos la dataUrl en dos partes
+    const arr = dataurl.split(',');
+    const mimeMatch = arr[0].match(/:(.*?);/);
+    if (!mimeMatch) {
+      throw new Error('No se pudo determinar el tipo MIME de la imagen.');
+    }
+    const mime = mimeMatch[1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new Blob([u8arr], { type: mime });
   }
 
   //Metodo para cambiar el valor del radio allRisk
   onAllRiskChange(event: any) {
-    this.allRisk = event.target.value;
+    // Casteamos el dato a un number para enviarlo a BD correctamente
+    this.allRisk = Number(event.target.value);
   }
 
   //Metodo para cambiar el valor del check tratamiento de datos
@@ -224,15 +278,15 @@ export class RegisterCompetitorComponent {
         (url) => {
           Swal.fire({
             icon: 'success',
-            title: 'File uploaded successfully',
-            text: `URL: ${url}`,
+            title: 'El archivo ha subido correctamente',
+            text: `URL: ${file.name}`,
           });
           resolve(url);
         },
         (error) => {
           Swal.fire({
             icon: 'error',
-            title: 'Error uploading file',
+            title: 'Error al cargar el archivo',
             text: error.message,
           });
           reject(error);
@@ -240,20 +294,34 @@ export class RegisterCompetitorComponent {
       );
     });
   }
-
   async onSubmit() {
     if (this.formVehicle.valid) {
+      // Modificar la información de los contactos antes de enviar
+      const contacts = this.formCompetitor.get('contacts') as FormArray;
+      contacts.controls.forEach((contact) => {
+        this.modifyContactInfo(contact as FormGroup);
+      });
+
+      // Actualizamos el valor allRisk
+      this.formVehicle.patchValue({ allRisk: this.allRisk });
+
+      // Asignar las URL de las imagenes de competidor y vehiculo
       try {
         if (this.selectedCompetitorFile) {
           const url = await this.uploadFile(this.selectedCompetitorFile);
-          this.formCompetitor.patchValue({ image: url });
+          this.formCompetitor.patchValue({ competitorImage: url });
+        }
+        if (this.selectedVehicleFile) {
+          const url = await this.uploadFile(this.selectedVehicleFile);
+          this.formVehicle.patchValue({ vehicleImage: url });
         }
 
-        this.competitor = this.formCompetitor.value;
-        this.competitor.vehicle = this.formVehicle.value;
-        this.competitor.dataProcessingConsent =
-          this.dataProcessingAuthorizationValue;
-        console.log(this.competitor);
+        this.competitor = {
+          ...this.formCompetitor.value,
+          vehicle: this.formVehicle.value,
+          dataProcessingConsent: this.dataProcessingAuthorizationValue,
+        };
+
         this.competitorsService.postUserComplete(this.competitor).subscribe(
           (response) => {
             Swal.fire({

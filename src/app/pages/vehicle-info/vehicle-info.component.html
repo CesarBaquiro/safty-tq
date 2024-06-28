@@ -2,7 +2,7 @@
 
 <div class="row p-3">
   <div class="col">
-    Referencia del vehiculo: <b>{{vehicle.vehicleReference}}</b>
+    Referencia del vehiculo: <b>{{vehicle.vehicle_reference}}</b>
   </div>
 </div>
 
@@ -24,12 +24,12 @@
       <div>
         <ul class="list-group p-3">
           <li class="list-group-item">Numero de poliza SOAT:
-            <b>{{vehicle.numberPolicySoat ? vehicle.numberPolicySoat :
+            <b>{{vehicle.number_policy_soat ? vehicle.number_policy_soat :
               "No registrado" }}</b>
           </li>
-          <li class="list-group-item">Numero de certificado RTM: <b>{{vehicle.certificateNumberRTM ?
-              vehicle.certificateNumberRTM : "No registrado"}}</b></li>
-          <li class="list-group-item">Seguro todo riesgo: <b>{{vehicle.allRisk == true ? "Aplica" : "No aplica"}}</b>
+          <li class="list-group-item">Numero de certificado RTM: <b>{{vehicle.certificate_number_rtm ?
+              vehicle.certificate_number_rtm : "No registrado"}}</b></li>
+          <li class="list-group-item">Seguro todo riesgo: <b>{{vehicle.all_risk == true ? "Aplica" : "No aplica"}}</b>
           </li>
         </ul>
       </div>

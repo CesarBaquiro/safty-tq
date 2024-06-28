@@ -2,8 +2,8 @@
 
 export interface CompetitorResponse {
   user_id: string;
-  competitorNum: string;
-  competitorImage: string;
+  competitor_num: string;
+  competitor_image: string;
   name: string;
   lastname: string;
   rh: string;
@@ -15,11 +15,11 @@ export interface CompetitorResponse {
 
 export interface VehicleResponse {
   vehicle_id: string;
-  vehicleImage: string;
-  vehicleReference: string;
+  vehicle_image: string;
+  vehicle_reference: string;
   plate: string;
-  numberPolicySoat: string;
-  certificateNumberRTM: string;
-  allRisk: boolean;
+  number_policy_soat: string;
+  certificate_number_rtm: string;
+  all_risk: boolean;
   user_id: string;
 }

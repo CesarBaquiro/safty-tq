@@ -14,7 +14,7 @@
 
 
 
-    {{competitor.competitorNum}}
+    {{competitor.competitor_num}}
   </h1>
 
 </div>
@@ -32,8 +32,8 @@
   <!-- CONTENEDOR PARA IMAGENES -->
   <div class="row">
     <div (click)="changeOption(1)" [style.opacity]="getOpacity(1)" class=" col " style="height: 30vh;">
-      @if(competitor.competitorImage){
-      <img class=" img-fluid rounded" src="{{competitor.competitorImage}}" alt="Imagen de piloto"
+      @if(competitor.competitor_image){
+      <img class=" img-fluid rounded" src="{{competitor.competitor_image}}" alt="Imagen de piloto"
         style="object-fit: cover; width: 100%; height: 100%;">
       }@else {
       <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none"
@@ -46,8 +46,8 @@
       }
     </div>
     <div (click)="changeOption(2)" [style.opacity]="getOpacity(2)" class="col" style="height: 30vh;">
-      @if(vehicle?.vehicleImage){
-      <img class="img-fluid rounded" src="{{vehicle?.vehicleImage}}" alt="Imagen de vehiculo"
+      @if(vehicle?.vehicle_image){
+      <img class="img-fluid rounded" src="{{vehicle?.vehicle_image}}" alt="Imagen de vehiculo"
         style="object-fit: cover; width: 100%; height: 100%;">
       }@else {
       <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none"
