@@ -32,7 +32,7 @@
       <div>
         <ul class="list-group p-3">
           @if(allergies.length > 0){
-          @for (allergie of allergies; track allergie.allergy_id) {
+          @for (allergie of allergies; track allergie) {
           <li class="list-group-item">{{allergie.allergy_info}}</li>
           }
           }@else{
@@ -48,7 +48,7 @@
 <!-- Botones de contacto -->
 <div class="container text-center">
 
-  @for (contact of contacts; track contact.contact_id) {
+  @for (contact of contacts; track contact) {
   <div class="row p-2">
     <a [href]="contact.contact_info" target="_blank"
       class="btn btn-success rounded-pill p-2 d-flex align-items-center justify-content-center" role="button">

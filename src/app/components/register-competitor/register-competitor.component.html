@@ -81,19 +81,21 @@
   <!-- Contacts -->
   <div formArrayName="contacts">
     <div *ngFor="let contact of contactControls; let i = index" [formGroupName]="i">
-      <label for="info" class="form-label">Contacto {{i + 1}} en caso de emergencia</label>
+      <label for="contact_info" class="form-label">Contacto {{i + 1}} en caso de emergencia</label>
       <div class="input-group mb-3">
-        <span class="input-group-text" id="info">
+        <span class="input-group-text" id="contact_info">
           <img src="img/colombia-flag.png" alt="Colombia" style="width: 18px; height: 18px; margin-right: 2px;">
           +57
         </span>
-        <input type="text" id="info" formControlName="info" aria-describedby="info" class="form-control"
-          placeholder="Numero de Whatsapp"
-          [ngClass]="{'is-invalid': contact.get('info')?.invalid && (contact.get('info')?.dirty || contact.get('info')?.touched)}">
-        @if (contact.get('info')?.invalid && (contact.get('info')?.dirty || contact.get('info')?.touched)) {
+        <input type="text" id="contact_info" formControlName="contact_info" aria-describedby="contact_info"
+          class="form-control" placeholder="Numero de Whatsapp"
+          [ngClass]="{'is-invalid': contact.get('contact_info')?.invalid && (contact.get('contact_info')?.dirty || contact.get('contact_info')?.touched)}">
+        @if (contact.get('contact_info')?.invalid && (contact.get('contact_info')?.dirty ||
+        contact.get('contact_info')?.touched)) {
         <div class="invalid-feedback">
-          @if (contact.get('info')?.errors?.['required']) { <div>El contacto es obligatorio.</div> }
-          @if (contact.get('info')?.errors?.['minlength'] || contact.get('info')?.errors?.['maxlength']) { <div>El
+          @if (contact.get('contact_info')?.errors?.['required']) { <div>El contacto es obligatorio.</div> }
+          @if (contact.get('contact_info')?.errors?.['minlength'] || contact.get('contact_info')?.errors?.['maxlength'])
+          { <div>El
             numero
             debe tener 10
             caracteres.
@@ -103,17 +105,19 @@
       </div>
       <!-- Parentesco con el contacto -->
       <div class="mb-3">
-        <label for="reference" class="form-label">Parentesco</label>
-        <input type="text" id="reference" formControlName="reference" class="form-control"
+        <label for="contact_reference" class="form-label">Parentesco</label>
+        <input type="text" id="contact_reference" formControlName="contact_reference" class="form-control"
           placeholder="Esposa, Hijo, Hermano, etc."
-          [ngClass]="{'is-invalid': contact.get('reference')?.invalid && (contact.get('reference')?.dirty || contact.get('reference')?.touched)}">
-        @if (contact.get('reference')?.invalid && (contact.get('reference')?.dirty ||
-        contact.get('reference')?.touched))
+          [ngClass]="{'is-invalid': contact.get('contact_reference')?.invalid && (contact.get('contact_reference')?.dirty || contact.get('contact_reference')?.touched)}">
+        @if (contact.get('contact_reference')?.invalid && (contact.get('contact_reference')?.dirty ||
+        contact.get('contact_reference')?.touched))
         {
         <div class="invalid-feedback">
-          @if (contact.get('reference')?.errors?.['required']) { <div>El Parentesco con el contacto es obligatorio</div>
+          @if (contact.get('contact_reference')?.errors?.['required']) { <div>El Parentesco con el contacto es
+            obligatorio</div>
           }
-          @if (contact.get('reference')?.errors?.['minlength']) { <div>El parentesco debe tener al menos 3 caracteres.
+          @if (contact.get('contact_reference')?.errors?.['minlength']) { <div>El parentesco debe tener al menos 3
+            caracteres.
           </div> }
         </div>
         }

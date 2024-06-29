@@ -14,6 +14,7 @@ export class CompetitorInfoComponent implements OnInit {
   public competitor: CompetitorResponse | null = null;
   public contacts: any[] = [];
   public allergies: any[] = [];
+  public testingRecords: any[] = [];
 
   ngOnInit() {
     this.competitorsService.competitor$.subscribe((competitor) => {
@@ -21,6 +22,7 @@ export class CompetitorInfoComponent implements OnInit {
       // Se asignan los valores a las listas
       this.allergies = competitor?.allergies || [];
       this.contacts = competitor?.contacts || [];
+      this.testingRecords = competitor?.testingRecords || [];
     });
   }
 }

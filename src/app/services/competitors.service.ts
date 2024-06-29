@@ -35,6 +35,13 @@ export class CompetitorsService {
     );
   }
 
+  // Get todos los competidores en bd
+  getAllCompetitors(): Observable<CompetitorResponse[]> {
+    return this.http.get<CompetitorResponse[]>(
+      'http://localhost:8000/api/staffcontrol/usuarios'
+    );
+  }
+
   // Método para enviar datos completos de usuario
   postUserComplete(competitor: any): Observable<any> {
     return this.http.post<any>(

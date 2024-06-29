@@ -155,8 +155,8 @@ export class RegisterCompetitorComponent {
   //Metodo para crear un contacto
   createContact(): FormGroup {
     return this.fb.group({
-      reference: ['', [Validators.required, Validators.minLength(3)]],
-      info: [
+      contact_reference: ['', [Validators.required, Validators.minLength(3)]],
+      contact_info: [
         '',
         [
           Validators.required,
@@ -173,9 +173,9 @@ export class RegisterCompetitorComponent {
 
   // Modificar la informacion de contacto ingresada por el usuario
   modifyContactInfo(contact: FormGroup) {
-    const info = contact.get('info')?.value;
-    const modifiedInfo = `https://wa.me/+57${info}`;
-    contact.patchValue({ info: modifiedInfo });
+    const contact_info = contact.get('contact_info')?.value;
+    const modifiedInfo = `https://wa.me/+57${contact_info}`;
+    contact.patchValue({ contact_info: modifiedInfo });
   }
 
   removeContact(index: number) {
