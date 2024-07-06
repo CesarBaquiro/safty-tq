@@ -35,6 +35,13 @@ export class CompetitorsService {
     );
   }
 
+  // Solicitud para traer los registros de pruebas por número de competidor
+  getTestingRecordsByCompetitorNum(competitorNum: string): Observable<any[]> {
+    return this.http.get<any[]>(
+      `http://localhost:8000/api/usuarios/numeroCompetidor/${competitorNum}/testing-records`
+    );
+  }
+
   // Get todos los competidores en bd
   getAllCompetitors(): Observable<CompetitorResponse[]> {
     return this.http.get<CompetitorResponse[]>(

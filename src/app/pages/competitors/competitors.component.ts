@@ -2,14 +2,14 @@ import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CompetitorsService } from '../../services/competitors.service';
 import { Title } from '@angular/platform-browser';
-import { catchError, switchMap } from 'rxjs/operators';
+import { catchError, switchMap, takeUntil } from 'rxjs/operators';
 import {
   CompetitorResponse,
   VehicleResponse,
 } from '../../interfaces/req-response';
 import { CompetitorInfoComponent } from '../competitor-info/competitor-info.component';
 import { VehicleInfoComponent } from '../vehicle-info/vehicle-info.component';
-import { of } from 'rxjs';
+import { of, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-competitors',
@@ -19,6 +19,7 @@ import { of } from 'rxjs';
   imports: [CompetitorInfoComponent, VehicleInfoComponent],
 })
 export default class CompetitorsComponent implements OnInit {
+  private unsubscribe$: Subject<void> = new Subject<void>();
   private route = inject(ActivatedRoute);
   private competitorsService = inject(CompetitorsService);
   private titleService = inject(Title);
@@ -40,7 +41,8 @@ export default class CompetitorsComponent implements OnInit {
               return of(null); // Retorna todo como un observable
             })
           );
-        })
+        }),
+        takeUntil(this.unsubscribe$) // Se desuscribe al destruir el componente
       )
       .subscribe((competitor) => {
         if (competitor) {

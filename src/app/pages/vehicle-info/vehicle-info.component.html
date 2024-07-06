@@ -36,13 +36,9 @@
     </div>
   </div>
 </div>
-
-<h1>Aqui</h1>
-
-
 <div class="container text-center">
   <div class="row p-2">
-    <a [href]="" target="_blank"
+    <a [class.btn-not-active]="!hasRTMTest()" [href]="getRtmTestUrl()" target=" _blank"
       class="btn btn-primary rounded-pill p-2 d-flex align-items-center justify-content-center" role="button">
       <!-- Logo turbo RTM -->
       <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ffffff"
@@ -62,8 +58,10 @@
       <span class="ms-2">Ver constancia RTM</span>
     </a>
   </div>
+
+
   <div class="row p-2">
-    <a [href]="" target="_blank"
+    <a [class.btn-not-active]="!hasAlcoholTest()" [href]="getAlcoholTestUrl()" target="_blank"
       class="btn btn-primary rounded-pill p-2 d-flex align-items-center justify-content-center" role="button">
       <!-- Logo alcocholemia -->
       <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 64 64" fill="none" stroke="#ffffff"

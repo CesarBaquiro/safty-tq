@@ -10,7 +10,7 @@ export interface CompetitorResponse {
   eps: string;
   allergies: [];
   contacts: [];
-  testingRecords: [];
+  testingRecords: any;
   vehicle_id: string;
 }
 

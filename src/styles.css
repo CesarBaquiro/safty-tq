@@ -91,3 +91,9 @@ a:hover {
 .small-label {
   font-size: 12px;
 }
+
+.btn-not-active {
+  opacity: 0.6;
+  pointer-events: none;
+  cursor: default;
+}
