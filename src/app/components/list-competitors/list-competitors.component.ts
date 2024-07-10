@@ -11,6 +11,8 @@ import { CompetitorResponse } from '../../interfaces/req-response';
 export default class ListCompetitorsComponent implements OnInit {
   private competitorsService = inject(CompetitorsService);
   competitors: CompetitorResponse[] = [];
+  private selectedCompetitorFile: File | null = null;
+  private selectedVehicleFile: File | null = null;
 
   ngOnInit() {
     this.competitorsService.getAllCompetitors().subscribe(

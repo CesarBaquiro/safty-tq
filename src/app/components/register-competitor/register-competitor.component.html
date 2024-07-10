@@ -88,7 +88,7 @@
           +57
         </span>
         <input type="text" id="contact_info" formControlName="contact_info" aria-describedby="contact_info"
-          class="form-control" placeholder="Numero de Whatsapp"
+          class="form-control" placeholder="Número de Whatsapp"
           [ngClass]="{'is-invalid': contact.get('contact_info')?.invalid && (contact.get('contact_info')?.dirty || contact.get('contact_info')?.touched)}">
         @if (contact.get('contact_info')?.invalid && (contact.get('contact_info')?.dirty ||
         contact.get('contact_info')?.touched)) {
@@ -96,7 +96,7 @@
           @if (contact.get('contact_info')?.errors?.['required']) { <div>El contacto es obligatorio.</div> }
           @if (contact.get('contact_info')?.errors?.['minlength'] || contact.get('contact_info')?.errors?.['maxlength'])
           { <div>El
-            numero
+            número
             debe tener 10
             caracteres.
           </div> }
@@ -197,7 +197,7 @@
       [ngClass]="{'is-invalid': plate?.invalid && (plate?.dirty || plate?.touched)}">
     @if (plate?.invalid && (plate?.dirty || plate?.touched)) {
     <div class="invalid-feedback">
-      @if ( plate?.errors?.['maxlength']) { <div>El numero de competidor debe tener maximo 6 caracteres.</div>
+      @if ( plate?.errors?.['maxlength']) { <div>El número de competidor debe tener maximo 6 caracteres.</div>
       }
     </div>
     }
@@ -205,7 +205,7 @@
 
   <!-- Numero de poliza de SOAT -->
   <div class="mb-3">
-    <label for="numberPolicySoat" class="form-label">Numero de poliza SOAT vigente</label>
+    <label for="numberPolicySoat" class="form-label">Número de poliza SOAT vigente</label>
     <input type="text" id="numberPolicySoat" formControlName="numberPolicySoat" class="form-control"
       [style.width.%]="50"
       [ngClass]="{'is-invalid': numberPolicySoat?.invalid && (numberPolicySoat?.dirty || numberPolicySoat?.touched)}">
@@ -213,7 +213,7 @@
 
   <!-- Numero de certificado RTM -->
   <div class="mb-3">
-    <label for="certificateNumberRTM" class="form-label">Numero de certificado RTM vigente</label>
+    <label for="certificateNumberRTM" class="form-label">Número de certificado RTM vigente</label>
     <input type="text" id="certificateNumberRTM" formControlName="certificateNumberRTM" class="form-control"
       [style.width.%]="50"
       [ngClass]="{'is-invalid': certificateNumberRTM?.invalid && (certificateNumberRTM?.dirty || certificateNumberRTM?.touched)}">
