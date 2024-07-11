@@ -10,9 +10,9 @@
     </thead>
     <tbody>
 
-      @for(competitor of competitors; track competitor){
+      <!-- @for(competitor of competitors; track competitor){ -->
 
-      <tr>
+      <tr *ngFor="let competitor of competitors; trackBy: trackCompetitor">
         <th scope="row">{{ competitor.competitor_num }}</th>
         <td>{{ competitor.name }}</td>
         <td>
@@ -23,12 +23,8 @@
               data-bs-toggle="dropdown" aria-expanded="false">
             </button>
             <ul class="dropdown-menu">
-
-
-              <li>
-                <a class="dropdown-item"
-                  onclick="document.getElementById('inputImageAlcoholemia' + competitor.competitor_num).click(); return false">
-
+              <li class="dropdown-item">
+                <a>
                   <!-- Logo alcoholemia -->
                   <svg xmlns=" http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 64 64" fill="none"
                     stroke="#008000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -42,17 +38,16 @@
                     <line x1="36" y1="33" x2="39" y2="33" />
                     <line x1="30" y1="33" x2="25" y2="33" />
                   </svg>
-                  Subir prueba alcoholemia
+                  Subir alcoholemia
                 </a>
-                <input type="file" id="inputImageAlcoholemia {{competitor.competitor_num}}"
-                  (change)="onFileSelected($event, 'alcoholemia', competitor.competitor_num)" style="display: none;">
+                <input class="form-control" type="file" id="inputImageAlcoholemia"
+                  (change)="onFileSelected($event, 'alcoholemia', competitor.competitor_num)">
 
               </li>
+              <hr>
 
-
-              <li>
-                <a class="dropdown-item"
-                  onclick="document.getElementById('inputImageRTM' + competitor.competitor_num).click(); return false">
+              <li class="dropdown-item">
+                <a>
                   <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
                     stroke="#008000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
                     class="icon icon-tabler icons-tabler-outline icon-tabler-car-turbine">
@@ -67,19 +62,22 @@
                     <path d="M11 13l3.5 -1.5" />
                     <path d="M11 9v4" />
                   </svg>
-                  Ver constancia RTM
+                  Subir RTM
                 </a>
-                <input type="file" id="inputImageRTM{{competitor.competitor_num}}"
-                  (change)="onFileSelected($event, 'mecanico', competitor.competitor_num)" style="display: none;">
+                <div class="input-group mb-3">
+
+                  <input class="form-control" type="file" id="inputImageRTM"
+                    (change)="onFileSelected($event, 'mecanico', competitor.competitor_num)">
+                </div>
               </li>
             </ul>
           </div>
         </td>
       </tr>
 
-      }@empty {
+      <!-- }@empty {
       <p>No hay pilotos registrados</p>
-      }
+      } -->
     </tbody>
   </table>
   <ul>

@@ -89,10 +89,11 @@ export class CompetitorsService {
     competitorNum: string,
     imageUrl: string
   ): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/registrar-test-mecanico`, {
+    const body = {
       competitorNum: competitorNum,
-      image_url: imageUrl,
-    });
+      test_image: imageUrl,
+    };
+    return this.http.post<any>(`${this.apiUrl}/registrar-test-mecanico`, body);
   }
 
   // Se guardan los datos en el competidor compartido

@@ -3,12 +3,14 @@ import { CompetitorsService } from '../../services/competitors.service';
 import { CompetitorResponse } from '../../interfaces/req-response';
 import { ImagesService } from '../../services/images.service';
 import Swal from 'sweetalert2';
+import { NgFor } from '@angular/common';
 
 @Component({
   selector: 'app-list-competitors',
   standalone: true,
   templateUrl: './list-competitors.component.html',
   styles: [],
+  imports: [NgFor],
 })
 export default class ListCompetitorsComponent implements OnInit {
   private competitorsService = inject(CompetitorsService);
@@ -51,7 +53,7 @@ export default class ListCompetitorsComponent implements OnInit {
     });
   }
 
-  async onFileSelected(event: any, type: string, competitorNum: string) {
+  onFileSelected(event: any, type: string, competitorNum: string) {
     console.log(competitorNum);
     const file: File = event.target.files[0];
     if (file) {
@@ -124,5 +126,12 @@ export default class ListCompetitorsComponent implements OnInit {
         }
       });
     }
+  }
+
+  public trackCompetitor(
+    index: number,
+    competitor: CompetitorResponse
+  ): string {
+    return competitor.competitor_num;
   }
 }
