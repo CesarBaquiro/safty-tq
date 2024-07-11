@@ -1,4 +1,3 @@
-<!-- list-competitors.component.html -->
 <div>
   <h2>Lista de Competidores</h2>
   <table class="table table-striped">
@@ -6,17 +5,17 @@
       <tr>
         <th scope="col">#</th>
         <th scope="col">Nombre</th>
-        <th scope="col">Links</th>
-
+        <th scope="col">Acciones</th>
       </tr>
     </thead>
     <tbody>
+
       @for(competitor of competitors; track competitor){
+
       <tr>
         <th scope="row">{{ competitor.competitor_num }}</th>
         <td>{{ competitor.name }}</td>
         <td>
-
           <div class="btn-group">
             <a [href]="'/' + competitor.competitor_num" target="_blank" type="button" class="btn btn-primary">Ver
               información</a>
@@ -24,36 +23,36 @@
               data-bs-toggle="dropdown" aria-expanded="false">
             </button>
             <ul class="dropdown-menu">
-              @if(true){
+
+
               <li>
-                <a class="dropdown-item" onclick="document.getElementById('inputGroupFile01').click(); return false;">
+                <a class="dropdown-item"
+                  onclick="document.getElementById('inputImageAlcoholemia' + competitor.competitor_num).click(); return false">
+
                   <!-- Logo alcoholemia -->
-                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 64 64" fill="none"
+                  <svg xmlns=" http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 64 64" fill="none"
                     stroke="#008000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <g data-name="Layer 6" id="Layer_6">
-                      <circle cx="32" cy="32" r="30" />
-                      <path d="M45,42l6.82,6.82A26,26,0,0,0,15.18,12.18L45,42" />
-                      <path d="M12.18,15.18A26,26,0,0,0,48.82,51.82Z" />
-                      <polyline points="39 36 39 28 35 24 35 13 29 13 29 24 28 25" />
-                      <polyline points="25 28 25 51 39 51 39 42" />
-                      <line x1="29" y1="19" x2="35" y2="19" />
-                      <line x1="39" y1="45" x2="25" y2="45" />
-                      <line x1="36" y1="33" x2="39" y2="33" />
-                      <line x1="30" y1="33" x2="25" y2="33" />
-                    </g>
+                    <circle cx="32" cy="32" r="30" />
+                    <path d="M45,42l6.82,6.82A26,26,0,0,0,15.18,12.18L45,42" />
+                    <path d="M12.18,15.18A26,26,0,0,0,48.82,51.82Z" />
+                    <polyline points="39 36 39 28 35 24 35 13 29 13 29 24 28 25" />
+                    <polyline points="25 28 25 51 39 51 39 42" />
+                    <line x1="29" y1="19" x2="35" y2="19" />
+                    <line x1="39" y1="45" x2="25" y2="45" />
+                    <line x1="36" y1="33" x2="39" y2="33" />
+                    <line x1="30" y1="33" x2="25" y2="33" />
                   </svg>
                   Subir prueba alcoholemia
                 </a>
-                <input type="file" id="inputGroupFile01" style="display: none;">
+                <input type="file" id="inputImageAlcoholemia {{competitor.competitor_num}}"
+                  (change)="onFileSelected($event, 'alcoholemia', competitor.competitor_num)" style="display: none;">
+
               </li>
-              }
+
+
               <li>
-                <hr class="dropdown-divider">
-              </li>
-              @if(true){
-              <li><a class="dropdown-item "
-                  onclick="document.getElementById('inputGroupFile02').click(); return false;">
-                  <!-- Logo turbo RTM -->
+                <a class="dropdown-item"
+                  onclick="document.getElementById('inputImageRTM' + competitor.competitor_num).click(); return false">
                   <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
                     stroke="#008000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
                     class="icon icon-tabler icons-tabler-outline icon-tabler-car-turbine">
@@ -68,19 +67,21 @@
                     <path d="M11 13l3.5 -1.5" />
                     <path d="M11 9v4" />
                   </svg>
-                  Ver constancia RTM</a>
-                <input type="file" id="inputGroupFile02" style="display: none;">
+                  Ver constancia RTM
+                </a>
+                <input type="file" id="inputImageRTM{{competitor.competitor_num}}"
+                  (change)="onFileSelected($event, 'mecanico', competitor.competitor_num)" style="display: none;">
               </li>
-              }
             </ul>
           </div>
         </td>
       </tr>
+
+      }@empty {
+      <p>No hay pilotos registrados</p>
       }
+    </tbody>
   </table>
   <ul>
-
-
-
   </ul>
 </div>

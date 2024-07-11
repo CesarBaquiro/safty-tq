@@ -24,3 +24,9 @@ export interface VehicleResponse {
   all_risk: boolean;
   user_id: string;
 }
+
+export interface TestResponse {
+  test_image: string;
+  type: string;
+  user_id: string;
+}

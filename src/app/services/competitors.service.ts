@@ -3,6 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, Observable, map } from 'rxjs';
 import {
   CompetitorResponse,
+  TestResponse,
   VehicleResponse,
 } from '../interfaces/req-response';
 
@@ -11,6 +12,7 @@ import {
 })
 export class CompetitorsService {
   private http = inject(HttpClient);
+  private apiUrl = 'http://localhost:8000/api/staffcontrol';
 
   //Observables
   private competitorSubject = new BehaviorSubject<CompetitorResponse | null>(
@@ -55,6 +57,42 @@ export class CompetitorsService {
       'http://localhost:8000/api/staffcontrol/usuarioCompleto',
       competitor
     );
+  }
+
+  // Get todos los competidores en bd
+  getAllTest(): Observable<TestResponse[]> {
+    return this.http.get<TestResponse[]>(
+      `${this.apiUrl}/usuarios/testing-records`
+    );
+  }
+
+  // Método para enviar image_url de la prueba de alcoholemia
+  postAlcoholTestImageUrl(
+    competitorNum: string,
+    imageUrl: string
+  ): Observable<any> {
+    const body = {
+      competitorNum: competitorNum,
+      test_image: imageUrl,
+    };
+    console.log(`RUTA POST:
+      ${this.apiUrl}/registrar-test-alcoholemia`);
+    console.log('Datos enviados en la solicitud POST:', body);
+    return this.http.post<any>(
+      `${this.apiUrl}/registrar-test-alcoholemia`,
+      body
+    );
+  }
+
+  // Método para enviar image_url de la prueba RTM
+  postRTMTestImageUrl(
+    competitorNum: string,
+    imageUrl: string
+  ): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/registrar-test-mecanico`, {
+      competitorNum: competitorNum,
+      image_url: imageUrl,
+    });
   }
 
   // Se guardan los datos en el competidor compartido
