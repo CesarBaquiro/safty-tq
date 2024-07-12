@@ -1,8 +1,14 @@
 name = "safty-tq"
-type = "webpack"
-route = ''
-zone_id = ''
-usage_model = ''
-compatibility_flags = []
-workers_dev = true
-compatibility_date = "2024-07-12"
+type = "javascript"
+
+[build]
+command = "npm run build"
+[build.environment]
+node_version = "18.19.1"
+
+[site]
+bucket = "./dist"
+entry-point = "."
+
+[env.production]
+pages_build_output_dir = "dist"
