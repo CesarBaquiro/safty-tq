@@ -3,11 +3,13 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build --configuration production",
+    "start": "npm run build && wrangler pages dev dist/cloudflare --compatibility-date=2024-07-18 --experimental-local",
+    "build": "ng build && npm run process",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:safty-tq": "node dist/safty-tq/server/server.mjs"
+    "serve:ssr:super-river-c90d": "node dist/super-river-c90d/server/server.mjs",
+    "process": "node ./tools/copy-files.mjs && node ./tools/alter-polyfills.mjs",
+    "deploy": "npm run build && wrangler pages deploy dist/cloudflare"
   },
   "private": true,
   "dependencies": {
@@ -47,9 +49,5 @@
     "karma-jasmine-html-reporter": "~2.1.0",
     "postcss": "^8.4.39",
     "wrangler": "^3.64.0"
-  },
-  "engines": {
-    "node": ">=20.14.0",
-    "npm": ">=10.8.1"
   }
 }

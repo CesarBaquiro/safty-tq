@@ -44,3 +44,7 @@ Thumbs.db
 # Enviroments
 /src/environments/*
 .env*
+
+# wrangler files
+.wrangler
+.dev.vars
